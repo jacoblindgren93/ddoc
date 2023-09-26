@@ -10,5 +10,6 @@
 
         public bool IsVerified { get; set; } = false;
 
+        public DateTime CreateDate { get; set; }
     }
 }
