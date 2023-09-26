@@ -1,0 +1,14 @@
+
+.blurry-bg-blue {
+	height: 400px;
+	width: 600px;
+	background-color: rgb(255, 155, 255);
+	background: linear-gradient(45deg, #5affa4, #a48fff);
+	border-radius: 50%;
+	opacity: 100%;
+	left: 35%;
+	top: 20%;
+	position: absolute;
+	z-index: -1;
+	filter: blur(150px);
+}
