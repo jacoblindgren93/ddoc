@@ -2,10 +2,11 @@
 == Frontend
 Skapa Create account page 
 Lägg till att theme sparas. Cookie?
+Remember me Cookie
 
 == Backend
 Fixa så login kollar att den är verified.
-
+Fixa så det skickas mail /Verifierings kod, Forgot password
 
 == Databas
 Fixa upp databas struktur

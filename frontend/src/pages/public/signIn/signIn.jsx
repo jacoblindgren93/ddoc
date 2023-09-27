@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import Alert from "src/common/components/alert/alert";
+import Alert from "src/common/components/alert/useAlert";
 import PrimaryBtn from "src/common/components/button/primaryBtn";
 import useFetch from "src/common/hooks/useFetch";
 // @ts-ignore
@@ -53,7 +53,7 @@ export default function SignIn() {
                             src={DavidBrent}
                             style={{
                                 borderRadius: "8px",
-                                boxShadow: "5px 5px 8px 2px rgb(0,0,0,0.1)",
+                                boxShadow: "5px 5px 16px 2px rgb(0,0,0,0.3)",
                                 maxWidth: "400px",
                             }}
                         />
@@ -82,13 +82,6 @@ export default function SignIn() {
                             justifyContent={"center"}
                             alignItems={"center"}
                         >
-                            <Typography
-                                textAlign={"center"}
-                                fontWeight={"bold"}
-                                fontSize={"25px"}
-                            >
-                                Members login
-                            </Typography>
                             <Box marginTop={4}>
                                 <TextField
                                     label="Username"
@@ -129,16 +122,28 @@ export default function SignIn() {
                                 </Alert>
                             )}
                             <FormControlLabel
+                                sx={{ marginTop: "18px" }}
                                 control={
                                     <Checkbox defaultChecked color="primary" />
                                 }
                                 label="Remember me"
                             />
-                            <NavLink style={{ marginTop: "18px" }} to="/">
+                            <NavLink
+                                style={{
+                                    marginTop: "18px",
+                                    textDecoration: "none",
+                                    color: "#6E6E6A",
+                                }}
+                                to="/"
+                            >
                                 Forgot your password?
                             </NavLink>
                             <NavLink
-                                style={{ marginTop: "18px" }}
+                                style={{
+                                    marginTop: "18px",
+                                    textDecoration: "none",
+                                    color: "#6E6E6A",
+                                }}
                                 to="/createAccount"
                             >
                                 Dont have an account?
