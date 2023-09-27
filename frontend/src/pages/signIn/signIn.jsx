@@ -14,15 +14,21 @@ import {
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import PrimaryBtn from "src/components/button/primaryBtn";
+import useFetch from "src/components/hooks/useFetch";
 
 export default function SignIn() {
-    const [loading, setLoading] = useState(false);
-
+    const { post, loading, error, response } = useFetch();
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     function onLogin() {
-        setLoading(true);
-        console.log("Hej");
+        const data = {
+            username: "test",
+            password: "test",
+        };
+        post(`User/Login?username=${username}&password=${password}`, data);
     }
-
+    console.log(`Response = ${response}`);
+    console.log(`Error = ${error}`);
     return (
         <Container sx={{ marginTop: 4 }}>
             <Box
@@ -51,7 +57,7 @@ export default function SignIn() {
                     <Box marginTop={4}>
                         <TextField
                             label="Username"
-                            id="outlined-start-adornment"
+                            onChange={(e) => setUsername(e.target.value)}
                             sx={{ m: 1, width: "25ch" }}
                             InputProps={{
                                 startAdornment: (
@@ -66,7 +72,7 @@ export default function SignIn() {
                         <TextField
                             label="Password"
                             type="password"
-                            id="outlined-start-adornment"
+                            onChange={(e) => setPassword(e.target.value)}
                             sx={{ m: 1, width: "25ch" }}
                             InputProps={{
                                 startAdornment: (
