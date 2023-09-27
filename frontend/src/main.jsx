@@ -1,4 +1,4 @@
-import Router from "./components/router/router.jsx";
+import Router from "./common/router/router.jsx";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import ThemeContextProvider from "./providers/themeContextProvider.jsx";

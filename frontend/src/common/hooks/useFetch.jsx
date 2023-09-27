@@ -16,7 +16,7 @@ export default function useFetch() {
     // @ts-ignore
     function post(endpoint, body, header) {
         setLoading(true);
-
+        setError(undefined);
         if (header) {
             axios
                 .post(`${apiUrl}${endpoint}`, body, { headers: header })
@@ -38,6 +38,7 @@ export default function useFetch() {
                     setLoading(false);
                 })
                 .catch((e) => {
+                    console.log(e.message);
                     setError(e);
                     setLoading(false);
                 });

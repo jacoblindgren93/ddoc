@@ -22,6 +22,18 @@ export default function StyleProvider({ children }) {
             },
         },
 
+        components: {
+            MuiCheckbox: {
+                styleOverrides: {
+                    root: {
+                        "&.Mui-checked": {
+                            color: "#1D1D1B",
+                        },
+                    },
+                },
+            },
+        },
+
         typography: {
             fontFamily: '"Inter", sans-serif', // Set Inter as the font family
         },

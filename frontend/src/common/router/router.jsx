@@ -1,10 +1,11 @@
-import Homepage from "src/pages/homepage/homepage";
+import Homepage from "src/pages/public/homepage/homepage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import NotFound from "src/pages/notFound/notFound";
+import NotFound from "src/pages/public/notFound/notFound";
 import NavbarLayout from "../layout/navbarLayout";
-import About from "src/pages/about/about";
-import SignIn from "src/pages/signIn/signIn";
-import Contact from "src/pages/contact/contact";
+import About from "src/pages/public/about/about";
+import SignIn from "src/pages/public/signIn/signIn";
+import Contact from "src/pages/public/contact/contact";
+import CreateAccount from "src/pages/public/createAccount/createAccount";
 
 export default function Router() {
     return (
@@ -16,6 +17,7 @@ export default function Router() {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/signin" element={<SignIn />} />
                     <Route path="*" element={<NotFound />} />
+                    <Route path="/createAccount" element={<CreateAccount />} />
                 </Route>
             </Routes>
         </BrowserRouter>

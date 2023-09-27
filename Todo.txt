@@ -1,0 +1,11 @@
+
+== Frontend
+Skapa Create account page 
+Lägg till att theme sparas. Cookie?
+
+== Backend
+Fixa så login kollar att den är verified.
+
+
+== Databas
+Fixa upp databas struktur

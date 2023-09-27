@@ -1,10 +1,10 @@
 import { Box, Container, Stack, Typography } from "@mui/material";
-import PrimaryBtn from "src/components/button/primaryBtn";
-import SecondaryButton from "src/components/button/secondaryBtn";
+import PrimaryBtn from "src/common/components/button/primaryBtn";
+import SecondaryButton from "src/common/components/button/secondaryBtn";
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
 import "./styles.css";
 // @ts-ignore
-import AbstractImg from "src/pages/homepage/abstract.png";
+import AbstractImg from "src/pages/public/homepage/abstract.png";
 import About from "../about/about";
 import { useNavigate } from "react-router-dom";
 export default function Homepage() {
