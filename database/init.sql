@@ -13,3 +13,12 @@ IF NOT EXISTS (select * from sysobjects where name='Users' and xtype='U')
 		Password varchar(MAX) NOT NULL,
         IsVerified BIT NOT NULL,
     );
+
+IF NOT EXISTS (select * from sysobjects where name='Verify' and xtype='U')
+CREATE TABLE Verify (
+    Guid NVARCHAR(36),
+    userId INT,
+    TriesLeft int IDENTITY(0,1),
+    PRIMARY KEY(Guid, userId),
+    FOREIGN KEY (userId) REFERENCES Users(Id)    
+);

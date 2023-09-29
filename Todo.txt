@@ -5,8 +5,10 @@ Lägg till att theme sparas. Cookie?
 Remember me Cookie
 
 == Backend
-Fixa så login kollar att den är verified.
-Fixa så det skickas mail /Verifierings kod, Forgot password
+Fixa så login kollar att den är verified. När registrering skapas, skapa guid, Skicka tillbaka GUID
+Fixa så det skickas mail / Verifierings kod, Forgot password
+Fixa så det skickas tokens
 
 == Databas
 Fixa upp databas struktur
+Lägg till userVerification(guid, email, TTL)

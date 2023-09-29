@@ -1,4 +1,4 @@
-import { AccountCircle, CheckBox } from "@mui/icons-material";
+import { AccountCircle, CheckBox, SetMeal } from "@mui/icons-material";
 import LockIcon from "@mui/icons-material/Lock";
 import {
     Box,
@@ -12,8 +12,8 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import Alert from "src/common/components/alert/useAlert";
 import PrimaryBtn from "src/common/components/button/primaryBtn";
 import useFetch from "src/common/hooks/useFetch";
@@ -22,15 +22,22 @@ import DavidBrent from "src/pages/public/signIn/DavidBrent.png";
 
 export default function SignIn() {
     const { post, loading, error, response } = useFetch();
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
     function onLogin() {
         const data = {
             username: "test",
             password: "test",
         };
-        post(`User/Login?username=${username}&password=${password}`, data);
+        post(`User/Login?email=${email}&password=${password}`, data);
     }
+
+    useEffect(() => {
+        if (response) {
+            navigate("/profile");
+        }
+    }, [response]);
     console.log(`Response = ${response}`);
     console.log(`Error = ${error}`);
     return (
@@ -84,10 +91,8 @@ export default function SignIn() {
                         >
                             <Box marginTop={4}>
                                 <TextField
-                                    label="Username"
-                                    onChange={(e) =>
-                                        setUsername(e.target.value)
-                                    }
+                                    label="Email"
+                                    onChange={(e) => setEmail(e.target.value)}
                                     sx={{ m: 1, width: "25ch" }}
                                     InputProps={{
                                         startAdornment: (
@@ -115,12 +120,7 @@ export default function SignIn() {
                                     }}
                                 />
                             </Box>
-                            {error && (
-                                <Alert type="error">
-                                    Login failed, double-check your information
-                                    and try again.
-                                </Alert>
-                            )}
+                            {error && <Alert type="error">{error}</Alert>}
                             <FormControlLabel
                                 sx={{ marginTop: "18px" }}
                                 control={
