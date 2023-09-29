@@ -1,4 +1,4 @@
-import { AccountCircle, CheckBox } from "@mui/icons-material";
+import { AccountCircle, CheckBox, SetMeal } from "@mui/icons-material";
 import LockIcon from "@mui/icons-material/Lock";
 import {
     Box,
@@ -12,9 +12,9 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
-import Alert from "src/common/components/alert/alert";
+import { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import Alert from "src/common/components/alert/useAlert";
 import PrimaryBtn from "src/common/components/button/primaryBtn";
 import useFetch from "src/common/hooks/useFetch";
 // @ts-ignore
@@ -22,15 +22,22 @@ import DavidBrent from "src/pages/public/signIn/DavidBrent.png";
 
 export default function SignIn() {
     const { post, loading, error, response } = useFetch();
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
     function onLogin() {
         const data = {
             username: "test",
             password: "test",
         };
-        post(`User/Login?username=${username}&password=${password}`, data);
+        post(`User/Login?email=${email}&password=${password}`, data);
     }
+
+    useEffect(() => {
+        if (response) {
+            navigate("/profile");
+        }
+    }, [response]);
     console.log(`Response = ${response}`);
     console.log(`Error = ${error}`);
     return (
@@ -53,7 +60,7 @@ export default function SignIn() {
                             src={DavidBrent}
                             style={{
                                 borderRadius: "8px",
-                                boxShadow: "5px 5px 8px 2px rgb(0,0,0,0.1)",
+                                boxShadow: "5px 5px 16px 2px rgb(0,0,0,0.3)",
                                 maxWidth: "400px",
                             }}
                         />
@@ -82,19 +89,10 @@ export default function SignIn() {
                             justifyContent={"center"}
                             alignItems={"center"}
                         >
-                            <Typography
-                                textAlign={"center"}
-                                fontWeight={"bold"}
-                                fontSize={"25px"}
-                            >
-                                Members login
-                            </Typography>
                             <Box marginTop={4}>
                                 <TextField
-                                    label="Username"
-                                    onChange={(e) =>
-                                        setUsername(e.target.value)
-                                    }
+                                    label="Email"
+                                    onChange={(e) => setEmail(e.target.value)}
                                     sx={{ m: 1, width: "25ch" }}
                                     InputProps={{
                                         startAdornment: (
@@ -122,23 +120,30 @@ export default function SignIn() {
                                     }}
                                 />
                             </Box>
-                            {error && (
-                                <Alert type="error">
-                                    Login failed, double-check your information
-                                    and try again.
-                                </Alert>
-                            )}
+                            {error && <Alert type="error">{error}</Alert>}
                             <FormControlLabel
+                                sx={{ marginTop: "18px" }}
                                 control={
                                     <Checkbox defaultChecked color="primary" />
                                 }
                                 label="Remember me"
                             />
-                            <NavLink style={{ marginTop: "18px" }} to="/">
+                            <NavLink
+                                style={{
+                                    marginTop: "18px",
+                                    textDecoration: "none",
+                                    color: "#6E6E6A",
+                                }}
+                                to="/"
+                            >
                                 Forgot your password?
                             </NavLink>
                             <NavLink
-                                style={{ marginTop: "18px" }}
+                                style={{
+                                    marginTop: "18px",
+                                    textDecoration: "none",
+                                    color: "#6E6E6A",
+                                }}
                                 to="/createAccount"
                             >
                                 Dont have an account?

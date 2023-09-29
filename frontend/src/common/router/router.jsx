@@ -6,6 +6,8 @@ import About from "src/pages/public/about/about";
 import SignIn from "src/pages/public/signIn/signIn";
 import Contact from "src/pages/public/contact/contact";
 import CreateAccount from "src/pages/public/createAccount/createAccount";
+import Profile from "src/pages/loggedIn/profile/profile";
+import Verify from "src/pages/public/verify/verify";
 
 export default function Router() {
     return (
@@ -19,6 +21,8 @@ export default function Router() {
                     <Route path="*" element={<NotFound />} />
                     <Route path="/createAccount" element={<CreateAccount />} />
                 </Route>
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/verify" element={<Verify />} />
             </Routes>
         </BrowserRouter>
     );

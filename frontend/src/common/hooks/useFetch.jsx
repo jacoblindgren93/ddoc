@@ -6,7 +6,7 @@ export default function useFetch() {
     // @ts-ignore
     const [error, setError] = useState("");
     // @ts-ignore
-    const [response, setResponse] = useState();
+    const [response, setResponse] = useState(0);
     // @ts-ignore
     const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -22,7 +22,7 @@ export default function useFetch() {
                 .post(`${apiUrl}${endpoint}`, body, { headers: header })
                 // @ts-ignore
                 .then((res) => {
-                    setResponse(res.data);
+                    setResponse(res.status);
                     setLoading(false);
                 })
                 .catch((e) => {
@@ -34,12 +34,12 @@ export default function useFetch() {
                 .post(`${apiUrl}${endpoint}`, body)
                 // @ts-ignore
                 .then((res) => {
-                    setResponse(res.data);
+                    setResponse(res.status);
                     setLoading(false);
                 })
                 .catch((e) => {
-                    console.log(e.message);
-                    setError(e);
+                    console.log(e.response.data);
+                    setError(e.response.data);
                     setLoading(false);
                 });
         }

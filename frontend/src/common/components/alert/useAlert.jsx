@@ -1,7 +1,8 @@
 import { Box } from "@mui/material";
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 import { useEffect } from "react";
-export default function Alert({ type, children }) {
+import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
+export default function useAlert({ type, children }) {
     let color;
 
     function getIcon() {
@@ -13,7 +14,11 @@ export default function Alert({ type, children }) {
                         sx={{ color: color, marginRight: 1 }}
                     />
                 );
-
+            case "info":
+                color = "#f57842";
+                return (
+                    <InfoRoundedIcon sx={{ color: color, marginRight: 1 }} />
+                );
             default:
                 return "Missing icon";
         }

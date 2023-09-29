@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using backend.Models;
+using backend.Utils;
+
 namespace backend.Controllers
 {
     [Route("api/[controller]")]
@@ -22,31 +24,42 @@ namespace backend.Controllers
         public async Task<IActionResult> Post(User user)
         {
             string Password = HashPassword(user.Password);
+            Guid Guid = Guid.NewGuid();
+            int rowsAffected = await dbAccess.SaveData("RegisterUser", new { user.UserName, user.Email, Password, Guid });
             
-            int rowsAffected = await dbAccess.SaveData("RegisterUser", new { user.UserName, user.Email, Password });
 
             if(rowsAffected == -1)
             {
                 return BadRequest("Username or Email is already in use");
             }
 
+            EmailSender.Send(user.Email, "Verify your account!", "Heres the link bro: " + Guid);
             return Ok();
         }
 
         [HttpPost("Login")]
-        public IActionResult Login(string username, string password)
+        public IActionResult Login(string email, string password)
         {
-            string SQLGet = "SELECT * FROM Users WHERE Username = @Username;";
+            string SQLGet = "SELECT * FROM Users WHERE Email = @Email;";
 
-            User user = dbAccess.LoadDataSingle<User, dynamic>(SQLGet, new { Username = username });
+            User user = dbAccess.LoadDataSingle<User, dynamic>(SQLGet, new { Email = email });
 
             if(user == null)
             {
                 return BadRequest();
             }
 
+            string sql = "SELECT IsVerified FROM Users WHERE Email = @Email;";
+            bool verified = dbAccess.LoadDataSingle<bool, dynamic>(sql, new { Email = email });
+            
+            if(!verified)
+            {
+                return BadRequest("Your account is not verified. Please verify your account through the email we sent you.");
+            }
+            
             if(ValidatePassword(password, user.Password))
             {
+                //Return Token
                 return Ok("Successful login");
             }
             return NotFound();
