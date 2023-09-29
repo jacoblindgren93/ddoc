@@ -38,7 +38,6 @@ export default function useFetch() {
                     setLoading(false);
                 })
                 .catch((e) => {
-                    console.log(e.response.data);
                     setError(e.response.data);
                     setLoading(false);
                 });

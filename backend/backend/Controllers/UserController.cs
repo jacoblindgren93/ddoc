@@ -32,9 +32,10 @@ namespace backend.Controllers
             {
                 return BadRequest("Username or Email is already in use");
             }
-
-            EmailSender.Send(user.Email, "Verify your account!", "Heres the link bro: " + Guid);
-            return Ok();
+            var body = $"Click <a href=\"https://127.0.0.1:3000/verify/{Guid}\">here</a> to verify your account!";
+            EmailSender.Send("jacob.lindgren@live.com", "Verify your account!", body);
+            return Ok()
+                ;
         }
 
         [HttpPost("Login")]
@@ -46,7 +47,7 @@ namespace backend.Controllers
 
             if(user == null)
             {
-                return BadRequest();
+                return BadRequest("Login failed, either the email does not exist or the password does not match.");
             }
 
             string sql = "SELECT IsVerified FROM Users WHERE Email = @Email;";
@@ -63,6 +64,21 @@ namespace backend.Controllers
                 return Ok("Successful login");
             }
             return NotFound();
+        }
+
+
+        [HttpPost("Verify")]
+        public async Task<IActionResult> Verify(Guid Guid)
+        {
+    
+            int res = await dbAccess.SaveData("VerifyUser", new {  Guid });
+
+            if(res <= 0)
+            {
+                return BadRequest("Error verifying account");
+            }
+            
+            return Ok("Success");
         }
 
         private static string HashPassword(string password)

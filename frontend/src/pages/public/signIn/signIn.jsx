@@ -26,10 +26,12 @@ export default function SignIn() {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
     function onLogin() {
+        console.log("1");
         const data = {
             username: "test",
             password: "test",
         };
+        console.log("1");
         post(`User/Login?email=${email}&password=${password}`, data);
     }
 

@@ -22,7 +22,7 @@ export default function Router() {
                     <Route path="/createAccount" element={<CreateAccount />} />
                 </Route>
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/verify" element={<Verify />} />
+                <Route path="/verify/:guid" element={<Verify />} />
             </Routes>
         </BrowserRouter>
     );

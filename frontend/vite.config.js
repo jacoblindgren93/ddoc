@@ -1,12 +1,14 @@
 /* eslint-disable no-undef */
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import path from "node:path"
+import mkcert from 'vite-plugin-mkcert'
+
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [mkcert(), react()],
   server: {
     port: 3000,
+	https: true
   },
   resolve: {
     alias: {

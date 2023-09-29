@@ -28,4 +28,26 @@ BEGIN
 		END
 END;
 GO
+
+use ddoc;
+GO
+CREATE PROCEDURE VerifyUser
+	@Guid NVARCHAR(36)
+AS
+BEGIN 
+    DECLARE @GuidCount NVARCHAR(36);
+    SELECT @GuidCount = COUNT(Guid)
+    FROM Verify
+    WHERE Guid = @Guid;
+    IF @GuidCount = 0
+		BEGIN
+			RETURN 0; 
+		END
+	ELSE
+		BEGIN
+			UPDATE Users SET IsVerified = 1 WHERE Id = (SELECT UserId FROM Verify WHERE Guid = @Guid);
+			DELETE FROM Verify WHERE Guid = @Guid;
+		END
+END;
+
 	

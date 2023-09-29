@@ -18,7 +18,7 @@ IF NOT EXISTS (select * from sysobjects where name='Verify' and xtype='U')
 CREATE TABLE Verify (
     Guid NVARCHAR(36),
     userId INT,
-    TriesLeft int IDENTITY(0,1),
+	created DATETIME;
     PRIMARY KEY(Guid, userId),
     FOREIGN KEY (userId) REFERENCES Users(Id)    
 );

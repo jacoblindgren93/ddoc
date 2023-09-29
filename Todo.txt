@@ -2,6 +2,7 @@
 == Frontend
 Skapa Create account page 
 Lägg till att theme sparas. Cookie?
+Reseta states
 Remember me Cookie
 
 == Backend

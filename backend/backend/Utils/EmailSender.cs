@@ -11,15 +11,15 @@ namespace backend.Utils
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
-                Credentials = new NetworkCredential("burkemailsender@gmail.com", "yfsu wyot fknh gnhu"),
+                Credentials = new NetworkCredential("burkemailsender@gmail.com", "*******"),
                 EnableSsl = true,
             };
 
             var mailMessage = new MailMessage
             {
                 From = new MailAddress("burkemailsender@gmail.com"),
-                Subject = "Verify your account!",
-                Body = "<h1>Hello</h1>",
+                Subject = subject,
+                Body = body,
                 IsBodyHtml = true,
             };
             mailMessage.To.Add(email);

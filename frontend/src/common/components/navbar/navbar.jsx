@@ -4,6 +4,7 @@ import ThemeButton from "../button/themeButton";
 import SecondaryButton from "../button/secondaryBtn";
 import PrimaryBtn from "../button/primaryBtn";
 import LoginIcon from "@mui/icons-material/Login";
+import Logo from "../logo/logo";
 export default function Navbar() {
     const theme = useTheme();
 
@@ -42,7 +43,7 @@ export default function Navbar() {
                     justifyContent: "flex-start",
                 }}
             >
-                ddoc
+                <Logo />
             </Typography>
             <Stack
                 direction={{ xs: "column", sm: "row" }}
