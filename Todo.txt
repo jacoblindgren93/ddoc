@@ -1,18 +1,12 @@
 
 == Frontend
-Fixa Context för deleteRow, Delete dialog, ProjectTable ska inte ha koll på de
-Lägg till att theme sparas. Cookie?
-Designa 404 page
-Testa skriva fel lösenord
-Verify knappen log in ska länkas upp.
 Lägg om error och response som bools
+Lägg till att theme sparas. Cookie?
 Fixa darkTheme
-
-ändra om så Buttons är button så man kan ha type="submit" ....
-
-// 
+Designa 404 page
 hooks
 useDebounce //webdev när man söker användare
+Verify knappen log in ska länkas upp.
 
 == Backend
 Gör databaseAccess async
@@ -27,3 +21,6 @@ Fixa upp databas struktur
 		Trigger on delete project members -> är det ingen kvar? Ta bort project
 		Trigger on delete Project -> Är det ingen admin kvar? Assigna en random admin.
 projects(projectName, ....)
+
+== Test
+Testa skriva fel lösenord

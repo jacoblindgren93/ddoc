@@ -1,6 +1,7 @@
 import { Container, Grid, Stack, Typography } from "@mui/material";
 import BenefitPoint from "src/common/components/benefitPoint/benefitPoint";
 import CreateAccountForm from "./createAccountForm";
+import RevealWithBox from "src/common/animation/reavelWithBox";
 export default function CreateAccount() {
     return (
         <Container
@@ -8,13 +9,15 @@ export default function CreateAccount() {
         >
             <Grid container>
                 <Grid item xs={12} md={6}>
-                    <Typography
-                        variant="h3"
-                        fontWeight={"bold"}
-                        marginBottom={4}
-                    >
-                        Create account
-                    </Typography>
+                    <RevealWithBox>
+                        <Typography
+                            variant="h3"
+                            fontWeight={"bold"}
+                            marginBottom={4}
+                        >
+                            Create account
+                        </Typography>
+                    </RevealWithBox>
                     <Stack direction={"column"} spacing={3}>
                         <BenefitPoint>Its free... for now {":)"}</BenefitPoint>
                         <BenefitPoint>

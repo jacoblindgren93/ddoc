@@ -19,6 +19,7 @@ export default function DeleteDialog({
     title,
     onClose,
     action,
+    actionText,
     children,
 }) {
     const [showDialog, setShowDialog] = React.useState(true);
@@ -48,7 +49,9 @@ export default function DeleteDialog({
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <PrimaryBtn onClick={() => action()}>Delete</PrimaryBtn>
+                        <PrimaryBtn onClick={() => action()}>
+                            {actionText}
+                        </PrimaryBtn>
                         <SecondaryButton onClick={() => handleClose()}>
                             Close
                         </SecondaryButton>

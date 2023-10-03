@@ -36,7 +36,8 @@ export default function SignIn() {
     const [showForgotPasswordDialog, setShowForgotPasswordDialog] =
         useState(false);
     const navigate = useNavigate();
-    function onLogin() {
+    function onLogin(e) {
+        e.preventDefault();
         post(`User/Login?email=${email}&password=${password}`);
     }
 
@@ -57,8 +58,6 @@ export default function SignIn() {
             navigate("/profile");
         }
     }, [response]);
-    console.log(`Response = ${response}`);
-    console.log(`Error = ${error}`);
     return (
         <Container sx={{ marginTop: 8 }}>
             {showForgotPasswordDialog && (
@@ -108,12 +107,7 @@ export default function SignIn() {
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <Box
-                            display={"flex"}
-                            flexDirection={"column"}
-                            justifyContent={"center"}
-                            alignItems={"center"}
-                        >
+                        <form onSubmit={onLogin} className="flex-column">
                             <Box marginTop={4}>
                                 <TextField
                                     label="Email"
@@ -185,11 +179,12 @@ export default function SignIn() {
                             <PrimaryBtnLoading
                                 loading={loading}
                                 onClick={onLogin}
+                                type="submit"
                                 sx={{ marginTop: 4 }}
                             >
                                 Login
                             </PrimaryBtnLoading>
-                        </Box>
+                        </form>
                     </Grid>
                 </Grid>
             </Paper>

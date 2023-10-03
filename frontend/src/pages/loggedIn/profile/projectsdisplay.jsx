@@ -35,17 +35,16 @@ export default function ProjectsDisplay() {
             {showDeleteDialog && (
                 <DeleteDialog
                     open={showDeleteDialog}
-                    title={`Leave project ${ref.current.projectName}`}
+                    title={`Leave project -> ${ref.current.projectName}`}
                     onClose={() => setDeleteDialog(false)}
                     action={deleteProject}
+                    actionText="Leave"
                 >
-                    Are you sure you want to leave? If you are the only one in
-                    the project the project will get deleted. In case you are an
-                    admin for the project and there is no other assigned admins
-                    in the project, a random person will be assigned admin. In
-                    case you are an admin and want a specific person to be
-                    admin, please enter the project and assign a member to the
-                    admin role.
+                    If you are the only remaining member in the project the
+                    project will get deleted. <br /> <br /> In case you are an
+                    admin and want to transmit the role to a specific person,
+                    please enter the project and assign a member to the admin
+                    role otherwise a random person will be assigned admin.
                 </DeleteDialog>
             )}
             <ProjectTable headers={headers} onDeleteRow={onDeleteRow} />

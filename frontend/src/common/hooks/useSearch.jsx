@@ -7,11 +7,14 @@ export default function useSearch(items, queryString, key) {
             setFilteredItems([]);
             return;
         }
-        let newList = items.filter((item) => {
-            return item[key].toLowerCase().includes(queryString.toLowerCase());
-        });
+        let newList = items.filter(
+            (item) =>
+                item[key].substring(0, queryString.length).toLowerCase() ==
+                queryString.toLowerCase()
+        );
+
         setFilteredItems(newList);
-    }, [queryString]);
+    }, [queryString, items]);
 
     return { filteredItems };
 }
