@@ -1,6 +1,10 @@
 import { Box, useTheme } from "@mui/material";
 
-export default function SecondaryButton({ onClick, children }) {
+export default function SecondaryButton({
+    onClick,
+    children,
+    hasBorder = false,
+}) {
     const theme = useTheme();
 
     const btnStyle = {
@@ -9,12 +13,13 @@ export default function SecondaryButton({ onClick, children }) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        maxWidth: "150px",
-        borderRadius: "2px",
+        maxWidth: "170px",
+        minWidth: "150px",
+        borderRadius: "4px",
         fontWeight: 500,
+        border: hasBorder ? "1px solid black" : "",
         "&:hover": {
-            background: "rgba(255, 255, 255, 0.2)",
-            borderRadius: "10px",
+            background: theme.palette.background.secondaryButtonHover,
         },
         cursor: "pointer",
     };

@@ -38,3 +38,12 @@ C:\Users\Jacob\OneDrive\Desktop\programmering\ddoc\backend\backend\bin\Debug\net
 C:\Users\Jacob\OneDrive\Desktop\programmering\ddoc\backend\backend\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
 C:\Users\Jacob\OneDrive\Desktop\programmering\ddoc\backend\backend\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\Jacob\OneDrive\Desktop\programmering\ddoc\backend\backend\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\Jacob\OneDrive\Desktop\programmering\ddoc\backend\backend\bin\Debug\net6.0\secrets.json
+C:\Users\Jacob\OneDrive\Desktop\programmering\ddoc\backend\backend\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\Jacob\OneDrive\Desktop\programmering\ddoc\backend\backend\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Jacob\OneDrive\Desktop\programmering\ddoc\backend\backend\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Jacob\OneDrive\Desktop\programmering\ddoc\backend\backend\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Jacob\OneDrive\Desktop\programmering\ddoc\backend\backend\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Jacob\OneDrive\Desktop\programmering\ddoc\backend\backend\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Jacob\OneDrive\Desktop\programmering\ddoc\backend\backend\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Jacob\OneDrive\Desktop\programmering\ddoc\backend\backend\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll

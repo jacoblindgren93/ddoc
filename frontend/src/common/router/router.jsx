@@ -8,6 +8,8 @@ import Contact from "src/pages/public/contact/contact";
 import CreateAccount from "src/pages/public/createAccount/createAccount";
 import Profile from "src/pages/loggedIn/profile/profile";
 import Verify from "src/pages/public/verify/verify";
+import AuthChecker from "../authChecker/authChecker";
+import ResetPassword from "src/pages/public/resetPassword/resetPassword";
 
 export default function Router() {
     return (
@@ -21,8 +23,11 @@ export default function Router() {
                     <Route path="*" element={<NotFound />} />
                     <Route path="/createAccount" element={<CreateAccount />} />
                 </Route>
-                <Route path="/profile" element={<Profile />} />
+                <Route path="/" element={<AuthChecker />}>
+                    <Route path="/profile" element={<Profile />} />
+                </Route>
                 <Route path="/verify/:guid" element={<Verify />} />
+                <Route path="/resetPassword" element={<ResetPassword />} />
             </Routes>
         </BrowserRouter>
     );

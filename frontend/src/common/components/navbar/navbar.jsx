@@ -4,7 +4,7 @@ import ThemeButton from "../button/themeButton";
 import SecondaryButton from "../button/secondaryBtn";
 import PrimaryBtn from "../button/primaryBtn";
 import LoginIcon from "@mui/icons-material/Login";
-import Logo from "../logo/logo";
+import Logo from "../../logo/logo";
 export default function Navbar() {
     const theme = useTheme();
 
@@ -35,7 +35,7 @@ export default function Navbar() {
 
     return (
         <Box display="flex" minHeight={60} alignItems={"center"}>
-            <Typography
+            <Box
                 fontWeight={"bold"}
                 fontSize={20}
                 sx={{
@@ -44,7 +44,8 @@ export default function Navbar() {
                 }}
             >
                 <Logo />
-            </Typography>
+            </Box>
+
             <Stack
                 direction={{ xs: "column", sm: "row" }}
                 spacing={{ xs: 1, sm: 2, md: 4 }}

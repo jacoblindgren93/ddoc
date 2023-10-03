@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
-import { Alert, Box, Paper, Stack, TextField } from "@mui/material";
+import { Alert, Box, Paper, Stack, TextField, useTheme } from "@mui/material";
 import PrimaryBtn from "src/common/components/button/primaryBtn";
 import UseAlert from "src/common/components/alert/useAlert";
 import useFetch from "src/common/hooks/useFetch";
-import { useNavigate } from "react-router-dom";
 import PopUp from "src/common/components/popUp/infoDialog";
+import PrimaryBtnLoading from "src/common/components/button/primaryBtnLoading";
 
 export default function CreateAccountForm() {
-    const navigate = useNavigate();
     const [formError, setFormError] = useState({ type: "", message: "" });
     const [formData, setFormData] = useState({
         username: "",
@@ -16,10 +15,11 @@ export default function CreateAccountForm() {
         passwordRepeat: "",
     });
     const { loading, error, response, post } = useFetch();
+    const theme = useTheme();
 
     function onCreateAccount(e) {
         if (e) e.preventDefault();
-        /*         setFormError({ type: "", message: "" });
+        setFormError({ type: "", message: "" });
         if (formData.username === "") {
             const error = { type: "username", message: "Username missing!" };
             setFormError(error);
@@ -61,7 +61,8 @@ export default function CreateAccountForm() {
             };
             setFormError(error);
             return;
-        } */
+        }
+
         let body = {
             userName: formData.username,
             email: formData.email,
@@ -71,6 +72,12 @@ export default function CreateAccountForm() {
     }
     useEffect(() => {
         if (response == 200) {
+            setFormData({
+                username: "",
+                email: "",
+                password: "",
+                passwordRepeat: "",
+            });
         }
     }, [response]);
 
@@ -92,7 +99,8 @@ export default function CreateAccountForm() {
                         <TextField
                             sx={
                                 formError.type === "username" && {
-                                    backgroundColor: "#ffeded",
+                                    backgroundColor:
+                                        theme.palette.background.errorBG,
                                 }
                             }
                             label="Username"
@@ -104,7 +112,8 @@ export default function CreateAccountForm() {
                         <TextField
                             sx={
                                 formError.type === "email" && {
-                                    backgroundColor: "#ffeded",
+                                    backgroundColor:
+                                        theme.palette.background.errorBG,
                                 }
                             }
                             placeholder="Email"
@@ -121,7 +130,8 @@ export default function CreateAccountForm() {
                         <TextField
                             sx={
                                 formError.type === "password" && {
-                                    backgroundColor: "#ffeded",
+                                    backgroundColor:
+                                        theme.palette.background.errorBG,
                                 }
                             }
                             label="Password"
@@ -134,7 +144,8 @@ export default function CreateAccountForm() {
                         <TextField
                             sx={
                                 formError.type === "password" && {
-                                    backgroundColor: "#ffeded",
+                                    backgroundColor:
+                                        theme.palette.background.errorBG,
                                 }
                             }
                             label="Repeat password"
@@ -153,10 +164,12 @@ export default function CreateAccountForm() {
                             </UseAlert>
                         )}
                         {error && <UseAlert type="error">{error}</UseAlert>}
-
-                        <PrimaryBtn onClick={onCreateAccount}>
+                        <PrimaryBtnLoading
+                            onClick={onCreateAccount}
+                            loading={loading}
+                        >
                             Create
-                        </PrimaryBtn>
+                        </PrimaryBtnLoading>
                     </Stack>
                 </form>
             </Paper>

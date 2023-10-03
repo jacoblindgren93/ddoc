@@ -50,4 +50,25 @@ BEGIN
 		END
 END;
 
-	
+use ddoc;
+GO
+CREATE PROCEDURE ResetPassword
+	@Email NVARCHAR(200),
+	@NewPassword NVARCHAR(200)
+AS
+BEGIN
+	DECLARE @EmailCount NVARCHAR(200);
+
+	SELECT @EmailCount = COUNT(Email)
+	FROM Users
+	WHERE Email = @Email;
+
+	IF @EmailCount = 0
+		BEGIN
+			RETURN 0;
+		END
+	ELSE
+		BEGIN
+			UPDATE Users SET Password = @NewPassword WHERE Email = @Email;
+		END
+END; 

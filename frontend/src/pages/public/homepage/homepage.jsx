@@ -4,13 +4,21 @@ import SecondaryButton from "src/common/components/button/secondaryBtn";
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
 import "./styles.css";
 // @ts-ignore
-import AbstractImg from "src/pages/public/homepage/abstract.png";
-import About from "../about/about";
+import AbstractImg from "src/pages/public/homepage/hp-img.svg";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "src/providers/AuthContext";
+import { useContext, useEffect } from "react";
 export default function Homepage() {
+    const { isAuth } = useContext(AuthContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isAuth) {
+            navigate("/profile");
+        }
+    }, [isAuth]);
     return (
-        <Box marginTop="200px">
+        <Box marginTop="120px">
             <Container
                 sx={{
                     display: "flex",
@@ -19,11 +27,15 @@ export default function Homepage() {
                     alignItems: "center",
                 }}
             >
-                <Typography variant="h1" fontWeight={"bold"}>
-                    ddoc
+                <Typography variant="h1" fontSize={150} fontWeight={900}>
+                    burk
                 </Typography>
-                <Typography color="text.secondary" variant={"h5"}>
-                    Manage your teams and documentation easily
+                <Typography
+                    color="text.secondary"
+                    fontSize={40}
+                    fontWeight={600}
+                >
+                    Project management made easy
                 </Typography>
                 <Stack
                     direction={{ xs: "column", sm: "row" }}
@@ -33,23 +45,22 @@ export default function Homepage() {
                     <PrimaryBtn onClick={() => navigate("/signin")}>
                         Sign in
                     </PrimaryBtn>
-                    <SecondaryButton onClick={() => navigate("/about")}>
+                    <SecondaryButton
+                        hasBorder={false}
+                        onClick={() => navigate("/about")}
+                    >
                         Learn more <KeyboardArrowRightOutlinedIcon />
                     </SecondaryButton>
                 </Stack>
-                <div className="blurry-bg-pink"></div>
+
                 <div className="blurry-bg-blue"></div>
-                <div className="blurry-bg-orange"></div>
+
+                <img
+                    src={AbstractImg}
+                    width="900"
+                    style={{ marginTop: "160px" }}
+                />
             </Container>
-            <img
-                src={AbstractImg}
-                style={{
-                    marginTop: "70px",
-                    width: "100%",
-                    marginBottom: "-10px",
-                }}
-            />
-            <About />
         </Box>
     );
 }

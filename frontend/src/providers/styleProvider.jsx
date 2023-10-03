@@ -13,11 +13,14 @@ export default function StyleProvider({ children }) {
                 paper: "#ffffff",
                 primaryButton: "#1D1D1B",
                 primaryButtonHover: "#2D2D2C",
+                secondaryButtonHover: "#e3e3e3",
                 light: "#E2E2E2",
+                errorBG: "#ffeded",
+                tableOddRow: "#E5E4E4",
             },
             text: {
-                primary: "#1D1D1B",
-                secondary: "#4D4C4C",
+                primary: "#232323",
+                secondary: "#444444",
                 contrast: "#F2F4FA",
             },
         },
@@ -32,6 +35,18 @@ export default function StyleProvider({ children }) {
                     },
                 },
             },
+            MuiTextField: {
+                styleOverrides: {
+                    root: {
+                        "& .MuiInputBase-input:focus + fieldset": {
+                            border: `2px solid #444444`,
+                        },
+                        "& .MuiInputLabel-root.Mui-focused": {
+                            color: "#232323",
+                        },
+                    },
+                },
+            },
         },
 
         typography: {
@@ -42,6 +57,10 @@ export default function StyleProvider({ children }) {
     const darkTheme = createTheme({
         palette: {
             mode: "dark",
+            background: {
+                primaryButton: "#b55a36",
+                primaryButtonHover: "#964b2d",
+            },
         },
         typography: {
             fontFamily: '"Inter", sans-serif', // Set Inter as the font family

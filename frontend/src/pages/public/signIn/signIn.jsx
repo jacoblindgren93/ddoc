@@ -11,32 +11,49 @@ import {
     Paper,
     TextField,
     Typography,
+    useTheme,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Alert from "src/common/components/alert/useAlert";
 import PrimaryBtn from "src/common/components/button/primaryBtn";
 import useFetch from "src/common/hooks/useFetch";
 // @ts-ignore
 import DavidBrent from "src/pages/public/signIn/DavidBrent.png";
+import { AuthContext } from "src/providers/AuthContext";
+import Cookies from "universal-cookie";
+import ForgotPasswordDialog from "./forgotPasswordDialog";
+import PrimaryBtnLoading from "src/common/components/button/primaryBtnLoading";
 
 export default function SignIn() {
+    const { setIsAuth } = useContext(AuthContext);
+    const theme = useTheme();
+    const cookie = new Cookies();
     const { post, loading, error, response } = useFetch();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [rememberAuth, setRememberAuth] = useState(false);
+    const [showForgotPasswordDialog, setShowForgotPasswordDialog] =
+        useState(false);
     const navigate = useNavigate();
     function onLogin() {
-        console.log("1");
-        const data = {
-            username: "test",
-            password: "test",
-        };
-        console.log("1");
-        post(`User/Login?email=${email}&password=${password}`, data);
+        post(`User/Login?email=${email}&password=${password}`);
     }
 
     useEffect(() => {
         if (response) {
+            setIsAuth(true);
+            if (rememberAuth) {
+                var dt = new Date();
+                const days = 1000;
+                dt.setTime(dt.getTime() + days * 24 * 60 * 60 * 1000);
+                cookie.set("token", response, {
+                    path: "/",
+                    expires: dt,
+                });
+            } else {
+                cookie.set("token", response);
+            }
             navigate("/profile");
         }
     }, [response]);
@@ -44,6 +61,12 @@ export default function SignIn() {
     console.log(`Error = ${error}`);
     return (
         <Container sx={{ marginTop: 8 }}>
+            {showForgotPasswordDialog && (
+                <ForgotPasswordDialog
+                    show={showForgotPasswordDialog}
+                    setShow={setShowForgotPasswordDialog}
+                />
+            )}
             <Paper sx={{ padding: 4 }} elevation={4}>
                 <Grid container>
                     <Grid
@@ -69,7 +92,7 @@ export default function SignIn() {
                         <Box>
                             <Typography
                                 marginTop={2}
-                                color={"#6E6E6A"}
+                                color={"text.secondary"}
                                 fontStyle={"italic"}
                                 fontSize={15}
                             >
@@ -126,40 +149,46 @@ export default function SignIn() {
                             <FormControlLabel
                                 sx={{ marginTop: "18px" }}
                                 control={
-                                    <Checkbox defaultChecked color="primary" />
+                                    <Checkbox
+                                        defaultChecked={rememberAuth}
+                                        onChange={(e) =>
+                                            setRememberAuth(e.target.checked)
+                                        }
+                                    />
                                 }
                                 label="Remember me"
                             />
-                            <NavLink
-                                style={{
+                            <Typography
+                                sx={{
                                     marginTop: "18px",
                                     textDecoration: "none",
-                                    color: "#6E6E6A",
+                                    color: "text.secondary",
+                                    cursor: "pointer",
                                 }}
-                                to="/"
+                                onClick={() =>
+                                    setShowForgotPasswordDialog(true)
+                                }
                             >
                                 Forgot your password?
-                            </NavLink>
+                            </Typography>
+
                             <NavLink
                                 style={{
                                     marginTop: "18px",
                                     textDecoration: "none",
-                                    color: "#6E6E6A",
+                                    color: theme.palette.text.secondary,
                                 }}
                                 to="/createAccount"
                             >
                                 Dont have an account?
                             </NavLink>
-                            <PrimaryBtn onClick={onLogin} sx={{ marginTop: 4 }}>
+                            <PrimaryBtnLoading
+                                loading={loading}
+                                onClick={onLogin}
+                                sx={{ marginTop: 4 }}
+                            >
                                 Login
-                                {loading && (
-                                    <CircularProgress
-                                        size={20}
-                                        sx={{ marginLeft: 2 }}
-                                        color={"secondary"}
-                                    />
-                                )}
-                            </PrimaryBtn>
+                            </PrimaryBtnLoading>
                         </Box>
                     </Grid>
                 </Grid>

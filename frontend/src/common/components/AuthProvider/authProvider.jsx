@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-
+//Not in use atm. Replace colors with them colors if they should be used.
 export default function AuthProvider({ provider, icon }) {
     const style = {
         display: "flex",

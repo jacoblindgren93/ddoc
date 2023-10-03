@@ -1,15 +1,29 @@
 
 == Frontend
-Skapa Create account page 
+Fixa Context för deleteRow, Delete dialog, ProjectTable ska inte ha koll på de
 Lägg till att theme sparas. Cookie?
-Reseta states
-Remember me Cookie
+Designa 404 page
+Testa skriva fel lösenord
+Verify knappen log in ska länkas upp.
+Lägg om error och response som bools
+Fixa darkTheme
+
+ändra om så Buttons är button så man kan ha type="submit" ....
+
+// 
+hooks
+useDebounce //webdev när man söker användare
 
 == Backend
-Fixa så login kollar att den är verified. När registrering skapas, skapa guid, Skicka tillbaka GUID
-Fixa så det skickas mail / Verifierings kod, Forgot password
-Fixa så det skickas tokens
+Gör databaseAccess async
+Snygga till mail / verifiering
+Ska post bara ha body?
 
 == Databas
 Fixa upp databas struktur
-Lägg till userVerification(guid, email, TTL)
+	Project(.....)
+		Project members()
+
+		Trigger on delete project members -> är det ingen kvar? Ta bort project
+		Trigger on delete Project -> Är det ingen admin kvar? Assigna en random admin.
+projects(projectName, ....)

@@ -20,7 +20,6 @@ export default function InfoDialog({ open, title, children }) {
         setShowDialog(false);
     };
     React.useEffect(() => {
-        console.log("In UseEffect");
         setShowDialog(open);
     }, [open]);
 

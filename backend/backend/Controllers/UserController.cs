@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using backend.Models;
 using backend.Utils;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.Text;
 
 namespace backend.Controllers
 {
@@ -34,8 +36,8 @@ namespace backend.Controllers
             }
             var body = $"Click <a href=\"https://127.0.0.1:3000/verify/{Guid}\">here</a> to verify your account!";
             EmailSender.Send("jacob.lindgren@live.com", "Verify your account!", body);
-            return Ok()
-                ;
+
+            return Ok();
         }
 
         [HttpPost("Login")]
@@ -57,13 +59,51 @@ namespace backend.Controllers
             {
                 return BadRequest("Your account is not verified. Please verify your account through the email we sent you.");
             }
-            
-            if(ValidatePassword(password, user.Password))
+
+            sql = "SELECT Id FROM Users WHERE Email = @Email;";
+            int id = dbAccess.LoadDataSingle<int, dynamic>(sql, new { Email = email });
+
+            Token token = new Token(_config);
+            string tokenString = token.CreateToken(id, "user");
+            if (ValidatePassword(password, user.Password))
             {
                 //Return Token
-                return Ok("Successful login");
+                return Ok(tokenString);
             }
             return NotFound();
+        }
+
+        [HttpPost("ResetPassword")]
+        public async Task ResetPassword(string Email)
+        {
+            string newPassword = GenerateRandomPassword(10);
+            await dbAccess.SaveData<dynamic>("ResetPassword", new { Email, newPassword });
+            var body = $"Your temporary password is {newPassword}\n Click here <a href=\"https://127.0.0.1:3000/resetPassword\">here</a> to reset your password.";
+            EmailSender.Send("jacob.lindgren@live.com", "Reset password", body);
+        }
+
+
+        [HttpPut("UpdatePassword")]
+        public async Task<IActionResult> UpdatePassword(string email, string oldPassword, string newPassword)
+        {
+            string sqlCheckPassword = "SELECT COUNT(Id) FROM Users WHERE Email = @Email AND Password = @OldPassword;";
+
+            int count = dbAccess.LoadDataSingle<int, dynamic>(sqlCheckPassword, new { email, oldPassword });
+
+            if(count <= 0)
+            {
+                return BadRequest();
+            }
+
+            string resetPassword = HashPassword(newPassword);
+            int rowsAffected = await dbAccess.SaveData<dynamic>("ResetPassword", new { email, NewPassword = resetPassword });
+
+            if(rowsAffected <= 0)
+            {
+                return BadRequest();
+            }
+
+            return Ok("The password has been updated");
         }
 
 
@@ -89,6 +129,26 @@ namespace backend.Controllers
         private static bool ValidatePassword(string pwd, string pwdHash)
         {
             return BCrypt.Net.BCrypt.EnhancedVerify(pwd, pwdHash);
+        }
+
+        private string GenerateRandomPassword(int length)
+        {
+            string LowercaseCharacters = "abcdefghijklmnopqrstuvwxyz";
+            string UppercaseCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            string NumericCharacters = "0123456789";
+            string SpecialCharacters = "!@#$%&*";
+
+            string allCharacters = LowercaseCharacters + UppercaseCharacters + NumericCharacters + SpecialCharacters;
+            Random random = new Random();
+            StringBuilder password = new StringBuilder();
+
+            for (int i = 0; i < length; i++)
+            {
+                int randomIndex = random.Next(0, allCharacters.Length);
+                password.Append(allCharacters[randomIndex]);
+            }
+
+            return password.ToString();
         }
     }
 }

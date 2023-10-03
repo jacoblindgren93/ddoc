@@ -1,17 +1,5 @@
-import {
-    Alert,
-    Box,
-    Container,
-    Grid,
-    Paper,
-    Stack,
-    TextField,
-    Typography,
-} from "@mui/material";
-import AuthProvider from "src/common/components/AuthProvider/authProvider";
+import { Container, Grid, Stack, Typography } from "@mui/material";
 import BenefitPoint from "src/common/components/benefitPoint/benefitPoint";
-import PrimaryBtn from "src/common/components/button/primaryBtn";
-import GoogleIcon from "@mui/icons-material/Google";
 import CreateAccountForm from "./createAccountForm";
 export default function CreateAccount() {
     return (

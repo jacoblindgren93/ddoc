@@ -41,10 +41,10 @@ namespace backend.DataAccess
             return dbConnection.Query<T>(sql);
         }
 
-        public bool Execute(string sql, string connectionId = "Default")
+        public bool Execute<U>(string sql, U parameters, string connectionId = "Default")
         {
             IDbConnection dbConnection = new SqlConnection(_config.GetConnectionString(connectionId));
-            return dbConnection.Execute(sql) > 0;
+            return dbConnection.Execute(sql, parameters) > 0;
         }
 
         public T LoadDataSingle<T, U>(string sql, U parameters, string connectionId = "Default")
