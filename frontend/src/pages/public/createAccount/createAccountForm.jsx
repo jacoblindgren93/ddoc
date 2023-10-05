@@ -71,7 +71,7 @@ export default function CreateAccountForm() {
         post("User", body);
     }
     useEffect(() => {
-        if (response == 200) {
+        if (response.length > 0) {
             setFormData({
                 username: "",
                 email: "",
@@ -88,7 +88,7 @@ export default function CreateAccountForm() {
 
     return (
         <Box>
-            <PopUp title="Success!" open={response == 200}>
+            <PopUp title="Success!" open={response.length > 0}>
                 Your account has been created! We sent you an verification link
                 to your email.
             </PopUp>

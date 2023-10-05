@@ -11,9 +11,9 @@ export default function ProjectsDisplay() {
 
     let headers = [];
     headers.push("Project");
-    headers.push("Author");
+    headers.push("Created by");
     headers.push("Created");
-    headers.push("Tickets");
+    headers.push("Open Tickets");
 
     function onDeleteRow(id, name) {
         const project = { id: id, projectName: name };
@@ -40,11 +40,12 @@ export default function ProjectsDisplay() {
                     action={deleteProject}
                     actionText="Leave"
                 >
-                    If you are the only remaining member in the project the
-                    project will get deleted. <br /> <br /> In case you are an
-                    admin and want to transmit the role to a specific person,
+                    In case you are an admin and the only admin in the project
                     please enter the project and assign a member to the admin
                     role otherwise a random person will be assigned admin.
+                    <br /> <br />
+                    If you are the only remaining member in the project then the
+                    project will get deleted.
                 </DeleteDialog>
             )}
             <ProjectTable headers={headers} onDeleteRow={onDeleteRow} />

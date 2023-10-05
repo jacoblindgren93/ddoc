@@ -1,12 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
-export default function useFetch() {
-    // @ts-ignore
+export default function useFetch(Type) {
     const [loading, setLoading] = useState(false);
-    // @ts-ignore
     const [error, setError] = useState("");
-    // @ts-ignore
-    const [response, setResponse] = useState(0);
+    const [response, setResponse] = useState([]);
     // @ts-ignore
     const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -18,7 +15,7 @@ export default function useFetch() {
             axios
                 .get(`${apiUrl}${endpoint}`, { headers: header })
                 .then((res) => {
-                    setResponse(res.status);
+                    setResponse(res.data);
                     setLoading(false);
                 })
                 .catch((e) => {
@@ -37,7 +34,7 @@ export default function useFetch() {
                 .post(`${apiUrl}${endpoint}`, body, { headers: header })
                 // @ts-ignore
                 .then((res) => {
-                    setResponse(res.status);
+                    setResponse(res.data);
                     setLoading(false);
                 })
                 .catch((e) => {
@@ -49,7 +46,7 @@ export default function useFetch() {
                 .post(`${apiUrl}${endpoint}`, body)
                 // @ts-ignore
                 .then((res) => {
-                    setResponse(res.status);
+                    setResponse(res.data);
                     setLoading(false);
                 })
                 .catch((e) => {
@@ -68,7 +65,7 @@ export default function useFetch() {
                 .put(`${apiUrl}${endpoint}`, body, { headers: header })
                 // @ts-ignore
                 .then((res) => {
-                    setResponse(res.status);
+                    setResponse(res.data);
                     setLoading(false);
                 })
                 .catch((e) => {
@@ -80,7 +77,7 @@ export default function useFetch() {
                 .put(`${apiUrl}${endpoint}`, body)
                 // @ts-ignore
                 .then((res) => {
-                    setResponse(res.status);
+                    setResponse(res.data);
                     setLoading(false);
                 })
                 .catch((e) => {
@@ -90,5 +87,5 @@ export default function useFetch() {
         }
     }
 
-    return { post, put, loading, error, response };
+    return { post, put, get, loading, error, response };
 }

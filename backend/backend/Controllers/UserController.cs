@@ -41,11 +41,11 @@ namespace backend.Controllers
         }
 
         [HttpPost("Login")]
-        public IActionResult Login(string email, string password)
+        public async Task<IActionResult> Login(string email, string password)
         {
             string SQLGet = "SELECT * FROM Users WHERE Email = @Email;";
 
-            User user = dbAccess.LoadDataSingle<User, dynamic>(SQLGet, new { Email = email });
+            User user = await dbAccess.LoadDataSingle<User, dynamic>(SQLGet, new { Email = email });
 
             if(user == null)
             {
@@ -53,21 +53,18 @@ namespace backend.Controllers
             }
 
             string sql = "SELECT IsVerified FROM Users WHERE Email = @Email;";
-            bool verified = dbAccess.LoadDataSingle<bool, dynamic>(sql, new { Email = email });
+            bool verified = await dbAccess.LoadDataSingle<bool, dynamic>(sql, new { Email = email });
             
             if(!verified)
             {
                 return BadRequest("Your account is not verified. Please verify your account through the email we sent you.");
             }
-
-            sql = "SELECT Id FROM Users WHERE Email = @Email;";
-            int id = dbAccess.LoadDataSingle<int, dynamic>(sql, new { Email = email });
-
-            Token token = new Token(_config);
-            string tokenString = token.CreateToken(id, "user");
+     
             if (ValidatePassword(password, user.Password))
             {
                 //Return Token
+                Token token = new Token(_config);
+                string tokenString = token.CreateToken(user.Id, "user", user.UserName);
                 return Ok(tokenString);
             }
             return NotFound();
@@ -88,7 +85,7 @@ namespace backend.Controllers
         {
             string sqlCheckPassword = "SELECT COUNT(Id) FROM Users WHERE Email = @Email AND Password = @OldPassword;";
 
-            int count = dbAccess.LoadDataSingle<int, dynamic>(sqlCheckPassword, new { email, oldPassword });
+            int count = await dbAccess.LoadDataSingle<int, dynamic>(sqlCheckPassword, new { email, oldPassword });
 
             if(count <= 0)
             {

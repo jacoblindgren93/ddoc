@@ -15,11 +15,12 @@ namespace backend.Utils
             _config = config;
         }
 
-        public string CreateToken(int userId, string role)
+        public string CreateToken(int userId, string role, string username)
         {
             Claim[] claims = new Claim[]{
                 new Claim(ClaimTypes.Role, role),
-                new Claim("userId", userId.ToString())
+                new Claim("userId", userId.ToString()),
+                new Claim("username", username)
             };
             string? tokenKeyString = _config.GetSection("TokenKey").Value;
             SymmetricSecurityKey tokenKey = new(

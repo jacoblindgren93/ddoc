@@ -12,7 +12,7 @@ namespace backend.DataAccess
             _config = config;
         }
 
-        public async Task<IEnumerable<T>> LoadData<T, U>(
+        public async Task<IEnumerable<T>> LoadDataStoredProcedure<T, U>(
             string storedProcedure,
             U parameters,
             string connectionId = "Default")
@@ -35,10 +35,10 @@ namespace backend.DataAccess
                 commandType: CommandType.StoredProcedure);
         }
 
-        public IEnumerable<T> LoadData<T>(string sql, string connectionId = "Default")
+        public IEnumerable<T> LoadData<T, U>(string sql, U parameters, string connectionId = "Default")
         {
             IDbConnection dbConnection = new SqlConnection(_config.GetConnectionString(connectionId));
-            return dbConnection.Query<T>(sql);
+            return dbConnection.Query<T>(sql, parameters);
         }
 
         public bool Execute<U>(string sql, U parameters, string connectionId = "Default")
@@ -47,7 +47,7 @@ namespace backend.DataAccess
             return dbConnection.Execute(sql, parameters) > 0;
         }
 
-        public T LoadDataSingle<T, U>(string sql, U parameters, string connectionId = "Default")
+        public async Task<T> LoadDataSingle<T, U>(string sql, U parameters, string connectionId = "Default")
         {
             IDbConnection dbConnection = new SqlConnection(_config.GetConnectionString(connectionId));
             return dbConnection.QueryFirstOrDefault<T>(sql, parameters);

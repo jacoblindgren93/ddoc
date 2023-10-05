@@ -72,3 +72,24 @@ BEGIN
 			UPDATE Users SET Password = @NewPassword WHERE Email = @Email;
 		END
 END; 
+
+use ddoc;
+GO
+CREATE PROCEDURE CreateProject
+	@CreatedBy varchar(50),
+	@ProjectName NVARCHAR(50)
+AS
+BEGIN
+	DECLARE @ProjectExist INT;
+	SELECT @ProjectExist = COUNT(Id) FROM Projects WHERE AuthorId = @AuthorId AND ProjectName = @ProjectName;
+
+	IF @ProjectExist = 0
+		BEGIN
+			INSERT INTO Projects(CreatedBy, Created, OpenTickets, ProjectName) VALUES(@CreatedBy, CAST(GETDATE() AS DATE), 0, @ProjectName);
+			
+			DECLARE @ProjectId INT;
+        	SELECT @ProjectId = Id FROM Projects WHERE AuthorId = @AuthorId AND ProjectName = @ProjectName;
+			
+			INSERT INTO ProjectMembers(Project, Username, Role) VALUES(@ProjectId, (SELECT Username FROM Users WHERE Id = @AuthorId), 'admin');
+		END
+END; 

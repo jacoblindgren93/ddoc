@@ -42,7 +42,7 @@ export default function ProjectTable({ headers, onDeleteRow }) {
                 <TableBody>
                     {projects.map((row, index) => (
                         <TableRow
-                            key={row.name}
+                            key={row.id}
                             sx={{
                                 "&:last-child td, &:last-child th": {
                                     border: 0,
@@ -63,16 +63,16 @@ export default function ProjectTable({ headers, onDeleteRow }) {
                             }}
                         >
                             <TableCell sx={tableCellStyle} align="left">
-                                {row.name}
+                                {row.projectName}
                             </TableCell>
                             <TableCell sx={tableCellStyle} align="left">
-                                {row.author}
+                                {row.createdBy}
                             </TableCell>
                             <TableCell sx={tableCellStyle} align="left">
-                                {row.created}
+                                <em>{row.created.substring(0, 10)}</em>
                             </TableCell>
                             <TableCell sx={tableCellStyle} align="left">
-                                {row.tickets}
+                                {row.openTickets}
                             </TableCell>
                             <TableCell>
                                 <DeleteIcon

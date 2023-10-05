@@ -42,8 +42,8 @@ export default function SignIn() {
     }
 
     useEffect(() => {
-        if (response) {
-            setIsAuth(true);
+        if (response.length > 0) {
+            console.log(response);
             if (rememberAuth) {
                 var dt = new Date();
                 const days = 1000;
@@ -55,6 +55,7 @@ export default function SignIn() {
             } else {
                 cookie.set("token", response);
             }
+            setIsAuth(true);
             navigate("/profile");
         }
     }, [response]);

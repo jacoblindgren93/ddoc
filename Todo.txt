@@ -1,6 +1,7 @@
 
 == Frontend
 Lägg om error och response som bools
+validera inputs
 Lägg till att theme sparas. Cookie?
 Fixa darkTheme
 Designa 404 page
@@ -9,11 +10,19 @@ useDebounce //webdev när man söker användare
 Verify knappen log in ska länkas upp.
 
 == Backend
+Ifall Ticket STATE går från 0 -> 1 Decrementera OpenTickets
+Ifall Ticket raders Decrementera OpenTickets.
+
+
+Validera input from frontend så den matchar databasen.
+
+
 Gör databaseAccess async
 Snygga till mail / verifiering
 Ska post bara ha body?
 
 == Databas
+Kontrollera att verify funkar.
 Fixa upp databas struktur
 	Project(.....)
 		Project members()
