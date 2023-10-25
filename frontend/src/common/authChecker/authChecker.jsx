@@ -1,15 +1,12 @@
 import { useContext, useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { AuthContext } from "src/providers/AuthContext";
+import Cookies from "universal-cookie";
 
 export default function AuthChecker() {
-    const { isAuth } = useContext(AuthContext);
-    const navigate = useNavigate();
-    useEffect(() => {
-        if (!isAuth) {
-            navigate("/");
-        }
-    }, [isAuth]);
-
+    const cookie = new Cookies();
+    if (!cookie.get("token")) {
+        return <Navigate to="/" />;
+    }
     return <Outlet />;
 }

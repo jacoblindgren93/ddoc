@@ -1,19 +1,19 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { tempData } from "./TempData";
 import DeleteDialog from "src/common/components/popUp/deleteDialog";
 import ProjectTable from "./projectTable";
 import { Projects } from "./profile";
-
+import useFetch from "src/common/hooks/useFetch";
+import useHeader from "src/common/hooks/useHeader";
 export default function ProjectsDisplay() {
     const [showDeleteDialog, setDeleteDialog] = useState(false);
     const { projects, setProjects } = useContext(Projects);
     const ref = useRef(null);
-
-    let headers = [];
-    headers.push("Project");
-    headers.push("Created by");
-    headers.push("Created");
-    headers.push("Open Tickets");
+    const { loading, response, error, remove } = useFetch();
+    let tableHeaders = [];
+    tableHeaders.push("Project");
+    tableHeaders.push("Created by");
+    tableHeaders.push("Created");
+    tableHeaders.push("Open Tickets");
 
     function onDeleteRow(id, name) {
         const project = { id: id, projectName: name };
@@ -23,6 +23,8 @@ export default function ProjectsDisplay() {
 
     function deleteProject() {
         // If api returns true on response
+        const { header } = useHeader();
+        remove(`Project/${ref.current.id}`, header);
         const newArray = projects.filter(
             (project) => project.id !== ref.current.id
         );
@@ -48,7 +50,7 @@ export default function ProjectsDisplay() {
                     project will get deleted.
                 </DeleteDialog>
             )}
-            <ProjectTable headers={headers} onDeleteRow={onDeleteRow} />
+            <ProjectTable headers={tableHeaders} onDeleteRow={onDeleteRow} />
         </>
     );
 }

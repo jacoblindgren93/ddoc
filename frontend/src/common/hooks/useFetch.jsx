@@ -55,7 +55,36 @@ export default function useFetch(Type) {
                 });
         }
     }
-
+    // @ts-ignore
+    function remove(endpoint, header) {
+        setLoading(true);
+        setError(undefined);
+        if (header) {
+            axios
+                .delete(`${apiUrl}${endpoint}`, { headers: header })
+                // @ts-ignore
+                .then((res) => {
+                    setResponse(res.data);
+                    setLoading(false);
+                })
+                .catch((e) => {
+                    setError(e);
+                    setLoading(false);
+                });
+        } else {
+            axios
+                .delete(`${apiUrl}${endpoint}`, { headers: header })
+                // @ts-ignore
+                .then((res) => {
+                    setResponse(res.data);
+                    setLoading(false);
+                })
+                .catch((e) => {
+                    setError("DOH! Something went wrong");
+                    setLoading(false);
+                });
+        }
+    }
     // @ts-ignore
     function put(endpoint, body, header) {
         setLoading(true);
@@ -87,5 +116,5 @@ export default function useFetch(Type) {
         }
     }
 
-    return { post, put, get, loading, error, response };
+    return { post, put, get, remove, loading, error, response };
 }

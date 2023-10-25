@@ -78,7 +78,7 @@ export default function ProjectTable({ headers, onDeleteRow }) {
                                 <DeleteIcon
                                     sx={tableCellStyle}
                                     onClick={() =>
-                                        onDeleteRow(row.id, row.name)
+                                        onDeleteRow(row.id, row.projectName)
                                     }
                                 />
                             </TableCell>

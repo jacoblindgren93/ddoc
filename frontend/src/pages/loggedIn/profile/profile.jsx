@@ -1,33 +1,21 @@
 // @ts-ignore
-import {
-    Container,
-    InputAdornment,
-    Stack,
-    TextField,
-    Typography,
-} from "@mui/material";
+import { Container, Stack } from "@mui/material";
 import { useEffect, useState, createContext } from "react";
-import useSearch from "src/common/hooks/useSearch.jsx";
 import ProjectsDisplay from "./projectsdisplay.jsx";
-import CreateProject from "./createProject.jsx";
-import EditProfile from "./editProfile.jsx";
 import useFetch from "src/common/hooks/useFetch.jsx";
-import Cookies from "universal-cookie";
+// @ts-ignore
 import TopSection from "./sections/TopSection.jsx";
 import MiddleSection from "./sections/middleSection.jsx";
+import useHeader from "src/common/hooks/useHeader.jsx";
 
 export const Projects = createContext(null);
 
 export default function Profile() {
     const { loading, error, response, get } = useFetch();
-    const cookie = new Cookies();
-
     const [projects, setProjects] = useState([]);
-
+    const [unfilteredProjects, setUnfilteredProjects] = useState({});
     useEffect(() => {
-        const header = {
-            Authorization: `Bearer ${cookie.get("token")}`,
-        };
+        const { header } = useHeader();
         get("Project", header);
     }, []);
 
@@ -36,6 +24,8 @@ export default function Profile() {
             console.log("Error");
         }
         if (response) {
+            // @ts-ignore
+            setUnfilteredProjects(response.allProjects);
             // @ts-ignore
             setProjects(response.allProjects);
         }
@@ -50,11 +40,10 @@ export default function Profile() {
                     <Stack gap={4}>
                         <Projects.Provider value={{ projects, setProjects }}>
                             <MiddleSection
-                                unfilteredProjects={response.allProjects}
+                                // @ts-ignore
+                                unfilteredProjects={unfilteredProjects}
                             />
-                            {projects && projects.length > 0 && (
-                                <ProjectsDisplay />
-                            )}
+                            {projects && <ProjectsDisplay />}
                         </Projects.Provider>
                     </Stack>
                 </>

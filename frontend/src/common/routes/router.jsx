@@ -23,11 +23,11 @@ export default function Router() {
                     <Route path="*" element={<NotFound />} />
                     <Route path="/createAccount" element={<CreateAccount />} />
                 </Route>
+                <Route path="/verify/:guid" element={<Verify />} />
+                <Route path="/resetPassword" element={<ResetPassword />} />
                 <Route path="/" element={<AuthChecker />}>
                     <Route path="/profile" element={<Profile />} />
                 </Route>
-                <Route path="/verify/:guid" element={<Verify />} />
-                <Route path="/resetPassword" element={<ResetPassword />} />
             </Routes>
         </BrowserRouter>
     );

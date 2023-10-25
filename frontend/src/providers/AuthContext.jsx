@@ -7,12 +7,12 @@ export const AuthContext = createContext(null);
 export default function AuthContextProvider({ children }) {
     const [isAuth, setIsAuth] = useState(false);
     const cookie = new Cookies();
-
     useEffect(() => {
-        if (cookie.get("token")) {
+        const token = cookie.get("token");
+        if (token) {
             setIsAuth(true);
         }
-    }, [isAuth]);
+    }, [cookie]);
 
     return (
         <AuthContext.Provider value={{ isAuth, setIsAuth }}>

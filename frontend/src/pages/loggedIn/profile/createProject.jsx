@@ -13,8 +13,10 @@ import { TextField } from "@mui/material";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import useFetch from "src/common/hooks/useFetch";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import Cookies from "universal-cookie";
+import { Projects } from "./profile";
+import PrimaryBtn from "src/common/components/button/primaryBtn";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     // @ts-ignore
@@ -27,7 +29,7 @@ const schema = yup
     })
     .required();
 
-export default function CreateProfile() {
+export default function CreateProject() {
     const cookie = new Cookies();
     const [open, setOpen] = React.useState(false);
     const { response, error, loading, post } = useFetch();
@@ -45,7 +47,11 @@ export default function CreateProfile() {
         formState: { errors },
     } = useForm();
 
-    useEffect(() => {}, [response, error]);
+    useEffect(() => {
+        if (response.length > 0) {
+            window.location.reload();
+        }
+    }, [response, error]);
 
     function onSubmit(data) {
         const body = JSON.stringify(data.projectName);
@@ -55,6 +61,14 @@ export default function CreateProfile() {
         };
         post("Project", body, header);
     }
+
+    const registers = [
+        {
+            label: "Project name",
+            registerName: "projectName",
+            registerOptions: { required: true },
+        },
+    ];
 
     return (
         <>
@@ -67,27 +81,42 @@ export default function CreateProfile() {
                 // @ts-ignore
                 TransitionComponent={Transition}
                 keepMounted
+                fullWidth
                 onClose={handleClose}
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle>{"Create Project"}</DialogTitle>
-                <DialogContent>
+                <DialogTitle sx={{ textAlign: "center" }}>
+                    {"Create Project"}
+                </DialogTitle>
+                <DialogContent
+                    className="flex"
+                    sx={{ padding: 4, marginTop: 2 }}
+                >
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <TextField
-                            label="Project name"
-                            {...register("projectName", {
-                                required: true,
-                                maxLength: 100,
-                            })}
-                        />
+                        {registers.map((reg) => {
+                            return (
+                                <TextField
+                                    key={reg.label}
+                                    label={reg.label}
+                                    {...register(
+                                        reg.registerName,
+                                        reg.registerOptions
+                                    )}
+                                />
+                            );
+                        })}
                     </form>
                     {errors.projectName && (
                         <p>DOH! Please enter a project name</p>
                     )}
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Disagree</Button>
-                    <Button onClick={handleClose}>Create</Button>
+                    <PrimaryBtn type="submit" onClick={handleClose}>
+                        Create
+                    </PrimaryBtn>
+                    <SecondaryButton onClick={handleClose}>
+                        Cancel
+                    </SecondaryButton>
                 </DialogActions>
             </Dialog>
         </>

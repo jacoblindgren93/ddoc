@@ -9,105 +9,125 @@ using System.Collections.Generic;
 
 namespace backend.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [Authorize]
-    public class ProjectController : ControllerBase
-    {
+	[Route("api/[controller]")]
+	[ApiController]
+	[Authorize]
+	public class ProjectController : ControllerBase
+	{
 
-        private readonly DbAccess dbAccess;
-        private readonly IConfiguration _config;
+		private readonly DbAccess dbAccess;
+		private readonly IConfiguration _config;
 
-        public ProjectController(IConfiguration config)
-        {
-            _config = config;
-            dbAccess= new DbAccess(config);
-        }
-        
-        [HttpGet]
-        public async Task<ProjectOverview> Get()
-        {
+		public ProjectController(IConfiguration config)
+		{
+			_config = config;
+			dbAccess = new DbAccess(config);
+		}
 
-            string sql = "SELECT * FROM ProjectMembers WHERE Username = @Username;";
+		[HttpGet]
+		public async Task<ProjectOverview> Get()
+		{
 
-            //Getting all projects:
-            string usaNama = this.User.FindFirst("username")?.Value;
-            IEnumerable<ProjectMember> projects = dbAccess.LoadData<ProjectMember, dynamic>(sql, new { @Username = usaNama });
-            
-            
-            if (!projects.Any())
-            {
-                return new ProjectOverview();
-            }
+			string sql = "SELECT * FROM ProjectMembers WHERE Username = @Username;";
 
-            // Get all invites..
-
-            //Add upp all the projects..
-
-            string projectDetailsSql = "SELECT * FROM Projects WHERE Id = @Project;";
-            var projectDetailsTasks = projects.Select(async project =>
-            {
-                Project projectData = await dbAccess.LoadDataSingle<Project, dynamic>(projectDetailsSql, new { @Project = project.Project });
-                return projectData;
-            });
-
-            // Wait for all project detail queries to complete
-            Project[] projectDetails = await Task.WhenAll(projectDetailsTasks);
-
-            ProjectOverview returnProjectOverviews = new ProjectOverview
-            {
-                AllProjects = projectDetails.Where(project => project != null).ToList()
-            };
-
-            return returnProjectOverviews;
-        }
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] string projectName)
-        {
-            if (projectName is null)
-            {
-                return BadRequest("ProjectName is null");
-            }
-            string? stringId = this.User.FindFirst("userId")?.Value;
-            if(stringId == null)
-            {
-                return BadRequest("Unknown error occured");
-            }
-            string userName = this.User.FindFirst("username")?.Value;
-
-            if(userName == null)
-            {
-                return BadRequest();
-            }
-
-            int rows = await dbAccess.SaveData<dynamic>("CreateProject", new {@ProjectName = projectName, @CreatedBy = this.User.FindFirst("username")?.Value });
-
-            if(rows <= 0)
-            {
-                return BadRequest("Seems like you already created a project like that");
-            }
+			string usaNama = this.User.FindFirst("username")?.Value;
+			IEnumerable<ProjectMember> projects = dbAccess.LoadData<ProjectMember, dynamic>(sql, new { @Username = usaNama });
 
 
-            return Ok("Successfully added Project");
-        }
+			if (!projects.Any())
+			{
+				return new ProjectOverview();
+			}
 
-        // PUT api/<ProjectController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+			string projectDetailsSql = "SELECT * FROM Projects WHERE Id = @Project;";
+			var projectDetailsTasks = projects.Select(async project =>
+			{
+				Project projectData = await dbAccess.LoadDataSingle<Project, dynamic>(projectDetailsSql, new { @Project = project.Project });
+				return projectData;
+			});
 
-        // DELETE api/<ProjectController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+			Project[] projectDetails = await Task.WhenAll(projectDetailsTasks);
 
-    }
+			ProjectOverview returnProjectOverviews = new ProjectOverview
+			{
+				AllProjects = projectDetails.Where(project => project != null).ToList()
+			};
+
+			return returnProjectOverviews;
+		}
+		[HttpGet("{id}")]
+		public string Get(int id)
+		{
+			return "value";
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Post([FromBody] string projectName)
+		{
+			if (projectName is null)
+			{
+				return BadRequest("ProjectName is null");
+			}
+			string? stringId = this.User.FindFirst("userId")?.Value;
+			if (stringId == null)
+			{
+				return BadRequest("Unknown error occured");
+			}
+			string userName = this.User.FindFirst("username")?.Value;
+
+			if (userName == null)
+			{
+				return BadRequest();
+			}
+
+			int rows = await dbAccess.SaveData<dynamic>("CreateProject", new { @ProjectName = projectName, @CreatedBy = this.User.FindFirst("username")?.Value });
+
+			if (rows <= 0)
+			{
+				return BadRequest("Seems like you already created a project like that");
+			}
+
+
+			return Ok("Successfully added Project");
+		}
+
+		// PUT api/<ProjectController>/5
+		[HttpPut("{id}")]
+		public void Put(int id, [FromBody] string value)
+		{
+		}
+
+		// DELETE api/<ProjectController>/5
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> Delete(int id)
+		{
+			string? userName = this.User.FindFirst("username")?.Value;
+			if (userName == null)
+			{
+				return NotFound();
+			}
+			string sql = @"SELECT COUNT(Id) FROM ProjectMembers WHERE Username = @Username AND Project = @Id;";
+
+			int rows = await dbAccess.LoadDataSingle<int, dynamic>(sql, new { @Username = userName, @Id = id });
+
+			if (rows <= 0)
+			{
+				return NotFound();
+			}
+
+			sql = @"DELETE FROM ProjectMembers WHERE Username = @Username AND Project = @Id;";
+
+			bool success = dbAccess.Execute<dynamic>(sql, new
+			{
+				@Username = userName,
+				@Id = id
+			});
+			if (success)
+			{
+				return Ok("Project has been deleted");
+			}
+			return BadRequest();
+		}
+
+	}
 }
