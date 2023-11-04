@@ -5,8 +5,11 @@ import Cookies from "universal-cookie";
 
 export default function AuthChecker() {
     const cookie = new Cookies();
-    if (!cookie.get("token")) {
-        return <Navigate to="/" />;
-    }
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!cookie.get("token")) {
+            navigate("/");
+        }
+    }, []);
     return <Outlet />;
 }
