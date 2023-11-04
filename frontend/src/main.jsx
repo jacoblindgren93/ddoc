@@ -10,15 +10,17 @@ import { BrowserRouter } from "react-router-dom";
 import AuthChecker from "./common/authChecker/authChecker.jsx";
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
-        <ThemeContextProvider>
-            <StyleProvider>
-                <CssBaseline />
+        <AuthContextProvider>
+            <ThemeContextProvider>
+                <StyleProvider>
+                    <CssBaseline />
 
-                <BrowserRouter>
-                    <AuthChecker />
-                </BrowserRouter>
-                <Router />
-            </StyleProvider>
-        </ThemeContextProvider>
+                    <BrowserRouter>
+                        <AuthChecker />
+                    </BrowserRouter>
+                    <Router />
+                </StyleProvider>
+            </ThemeContextProvider>
+        </AuthContextProvider>
     </React.StrictMode>
 );
